@@ -35,11 +35,8 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <Nav />
-        <Header />
         <SearchForm />
         <ResultsCard />
-        <Footer />
       </div>
     );
   }
