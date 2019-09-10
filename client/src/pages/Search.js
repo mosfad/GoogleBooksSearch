@@ -3,7 +3,11 @@ import React, { Component } from "react";
 import Nav from "../components/Nav";
 import API from "../utils/API";
 import { Link } from "react-router-dom";
-//import { Col, Row, Container } from "../components/Grid";
+import { Input, FormBtn } from "../components/Form";
+import { List, ListItem } from "../components/List";
+import { ViewBtn, DeleteBtn } from "../components/Button";
+import ImageCard from "../components/ImageCard";
+import axios from "axios";
 //import { List, ListItem } from "../components/List";
 //import { Input, TextArea, FormBtn } from "../components/Form";
 
@@ -17,26 +21,122 @@ class Search extends Component {
         image: "",
         link: ""
       }
-    ]
+    ],
+    query: ""
   };
 
-  componentDidMount() {}
+  /*componentDidMount() {
+    //this.loadGoogleBooks();
+  }*/
 
-  loadBooks = () => {};
+  loadGoogleBooks = searchTerm => {
+    const API_KEY = "";
+    /*let API_URL =
+      "https://www.googleapis.com/books/v1/volumes?q=" +
+      searchTerm +
+      "intitle:" +
+      searchTerm +
+      "&key=" +
+      API_KEY;*/
+    let API_URL = "https://www.googleapis.com/books/v1/volumes";
+    axios
+      .get(`${API_URL}?q=${searchTerm}intitle:${searchTerm}&key=${API_KEY}`)
+      .then(response => {
+        // handle success
+        const data = [];
+        /*const obj = {
+          title: "",
+          author: "",
+          description: "",
+          image: "",
+          link: ""
+        };*/
+        response.data.items.map((arr, index) => {
+          data.push({
+            title: arr.volumeInfo.title,
+            author: arr.volumeInfo.authors,
+            description: arr.volumeInfo.description,
+            image: arr.volumeInfo.imageLinks.thumbnail,
+            link: arr.volumeInfo.previewLink
+          });
+        });
+        console.log(data);
+        //console.log(response.data.items);
+        /*console.log(response.data.items[5].volumeInfo.authors);
+        console.log(response.data.items[5].volumeInfo.title);
+        console.log(response.data.items[5].volumeInfo.description);
+        console.log(response.data.items[5].volumeInfo.previewLink);
+        console.log(response.data.items[5].volumeInfo.imageLinks.thumbnail);*/
+        this.setState({ books: data, query: "" }, () => {
+          console.log(this.state);
+        });
+      })
+      .catch(function(error) {
+        // handle error
+        console.log(error);
+      });
+  };
+
+  componentDidUpdate() {}
 
   deleteBook = id => {};
 
-  handleInputChange = event => {};
+  handleInputChange = event => {
+    const {
+      target: { name, value }
+    } = event;
+    console.log(name);
+    console.log(value);
+    this.setState({ [name]: value });
+  };
 
   handleFormSubmit = event => {
+    //prevent browser from refreshing after form submission.
     event.preventDefault();
+    this.loadGoogleBooks(this.state.query);
+    console.log(this.state.books);
   };
 
   render() {
     return (
       <div>
-        <SearchForm />
-        <ResultsCard />
+        <form>
+          <Input
+            name="query"
+            value={this.state.query}
+            onChange={this.handleInputChange}
+          ></Input>
+          <FormBtn onClick={this.handleFormSubmit}>Search</FormBtn>
+        </form>
+        {this.state.books.length ? (
+          <List>
+            {this.state.books.map(book => (
+              <ListItem>
+                <div className="row">
+                  <div className="col s4">
+                    <strong>{book.title}</strong>
+                  </div>
+                  <div className="col s1 offset-s6">
+                    <ViewBtn link={book.link} />
+                  </div>
+                  <div className="col s1"></div>
+                  <DeleteBtn />
+                </div>
+                <div className="row">
+                  <strong>Written By {book.authors}</strong>
+                </div>
+                <div className="row">
+                  <div className="col s4">
+                    <ImageCard image={book.image}></ImageCard>
+                  </div>
+                  <div className="col s6">{book.description}</div>
+                </div>
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <h3>No Results to Display</h3>
+        )}
       </div>
     );
   }

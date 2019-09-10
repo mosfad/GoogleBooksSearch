@@ -2,7 +2,7 @@ import React from "react";
 
 // This file exports the various inputs and FormBtn components
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="page-footer">
       <div className="footer-copyright">

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 //import DeleteBtn from "../components/DeleteBtn";
 import Nav from "../components/Nav";
 import API from "../utils/API";
+import ResultsCard from "../components/ResultsCard";
 import { Link } from "react-router-dom";
 //import { Col, Row, Container } from "../components/Grid";
 //import { List, ListItem } from "../components/List";

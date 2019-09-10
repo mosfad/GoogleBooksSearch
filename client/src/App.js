@@ -1,12 +1,24 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Search from "./pages/Books";
-import Saved from "./pages/Detail";
+import Search from "./pages/Search";
+import Saved from "./pages/Saved";
 //import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
-import Nav from "./components/Header";
-import Nav from "./components/Footer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
+function App() {
+  return (
+    <div>
+      <Nav />
+      <Search />
+    </div>
+  );
+}
+
+export default App;
+
+/*
 function App() {
   return (
     <Router>
@@ -16,7 +28,6 @@ function App() {
         <Switch>
           <Route exact path="/" component={Search} />
           <Route exact path="/books" component={Saved} />
-          <Route component={NoMatch} />
         </Switch>
         <Footer />
       </div>
@@ -24,4 +35,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;*/

@@ -2,11 +2,11 @@ import React from "react";
 
 // This file exports the various inputs and FormBtn components
 
-export function Nav(props) {
+export default function Nav(props) {
   return (
     <nav>
-      <div class="nav-wrapper blue-grey darken-2">
-        <a href="#" className="brand-logo left">
+      <div className="nav-wrapper blue-grey darken-2">
+        <a href="#" className="center brand-logo">
           Google Books
         </a>
         <ul id="nav-mobile" className="left hide-on-med-and-down">
